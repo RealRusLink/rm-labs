@@ -1,0 +1,36 @@
+erDiagram
+    User ||--o{ Game
+    User ||--o{ Character
+    Game ||--o{ Character
+    Game }o--o{ ItemCatalog
+    ItemCatalog ||--o{ Item
+    User ||--o{ ItemCatalog
+    InventoryPosition }o--|| Item
+    InventoryPosition }o--|| Character
+
+    User {
+        string id PK
+        string username
+    }
+    Game {
+        string id PK
+        string name
+        string description
+    }
+    ItemCatalog {
+        string id PK
+        string name
+        string description
+    }
+    Item {
+        string id PK
+        string name
+        string description
+    }
+    InventoryPosition {
+        int quantity
+    }
+    Character {
+        string id PK
+        string name
+    }
