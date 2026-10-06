@@ -7,7 +7,7 @@
 - ItemCatalog(Каталог предметів): id, name, description
 - Item(Предмет): id, name, description
 - InventoryPosition(Позиція інвентаря): quantity(ціле число)
-- Character(Персонаж): id, character_name
+- Character(Персонаж): id, name
 
 Усі id є UUID(на діаграмі string). Усі інші атрибути за замовчуванням є текстовими, якщо інше не вказано явно. 
 Ключем InventoryPosition є пара Персонаж-Предмет.
