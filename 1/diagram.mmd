@@ -1,0 +1,48 @@
+erDiagram
+    User ||--o{ Game : "володіє"
+    User ||--o{ Character : "грає"
+    Game ||--o{ Character : "включає"
+    Game }o--o{ ItemCatalog : "посилається на"
+    ItemCatalog ||--o{ Item : "містить"
+    User ||--o{ ItemCatalog : "створює"
+    InventoryPosition }o--|| Item : "містить"
+    InventoryPosition }o--|| Character : "належить"
+
+    User {
+        string id PK
+        string username
+    }
+
+    Game {
+        string id PK
+        string owner_id FK
+        string name
+        string description
+    }
+
+    ItemCatalog {
+        string id PK
+        string owner_id FK
+        string name
+        string description
+    }
+
+    Item {
+        string id PK
+        string catalog_id FK
+        string name
+        string description
+    }
+
+    InventoryPosition {
+        string character_id PK, FK
+        string item_id PK, FK
+        int quantity
+    }
+
+    Character {
+        string id PK
+        string user_id FK
+        string game_id FK
+        string name
+    }
