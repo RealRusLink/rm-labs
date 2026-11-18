@@ -1,0 +1,40 @@
+sequenceDiagram
+    autonumber
+    actor Admin as Адміністратор
+    participant API as InventoryController
+    participant Game as GameService
+    participant Char as CharacterRepository
+    participant Inv as InventoryRepository
+    participant Items as ItemRepository
+
+    Note over Admin: Передумова: користувач - адміністратор гри,<br/>персонаж належить цій грі
+
+    Admin->>API: openInventory(gameId, characterId)
+    activate API
+
+    API->>Game: ensureAdmin(gameId, adminId)
+    activate Game
+    Game-->>API: true
+    deactivate Game
+
+    API->>Char: existsCharacterInGame(gameId, characterId)
+    activate Char
+    Char-->>API: true
+    deactivate Char
+
+    API->>Inv: findPositions(characterId)
+    activate Inv
+    Inv-->>API: positions[]
+    deactivate Inv
+
+    alt positions is empty
+        API-->>Admin: 200 emptyInventoryView
+    else
+        API->>Items: findItemsByIds(itemIds)
+        activate Items
+        Items-->>API: items[]
+        deactivate Items
+        API-->>Admin: 200 inventoryView
+    end
+
+    deactivate API

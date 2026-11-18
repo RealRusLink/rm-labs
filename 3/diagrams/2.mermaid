@@ -1,0 +1,48 @@
+sequenceDiagram
+    autonumber
+    actor Admin as Адміністратор
+    participant API as InventoryController
+    participant Game as GameService
+    participant Char as CharacterRepository
+    participant Cat as CatalogRepository
+    participant Inv as InventoryRepository
+
+    Note over Admin: Передумова: користувач - адміністратор гри,<br/>персонаж належить цій грі
+
+    Admin->>API: addInventoryItem(gameId, characterId, itemId, quantity)
+    activate API
+
+    API->>Game: ensureAdmin(gameId, adminId)
+    activate Game
+    Game-->>API: true
+    deactivate Game
+
+    API->>Char: existsCharacterInGame(gameId, characterId)
+    activate Char
+    Char-->>API: true
+    deactivate Char
+
+    API->>Cat: isItemInGameCatalogs(gameId, itemId)
+    activate Cat
+    Cat-->>API: true
+    deactivate Cat
+
+    alt quantity < 1
+        API-->>Admin: 400 quantity should be >= 1
+    else
+        API->>Inv: findPosition(characterId, itemId)
+        activate Inv
+        Inv-->>API: position
+
+        alt position exists
+            API->>Inv: increaseQuantity(characterId, itemId, quantity)
+        else
+            API->>Inv: createPosition(characterId, itemId, quantity)
+        end
+
+        Inv-->>API: positionSaved
+        deactivate Inv
+        API-->>Admin: 200 inventoryItemSaved
+    end
+
+    deactivate API
