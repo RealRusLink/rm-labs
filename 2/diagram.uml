@@ -1,0 +1,56 @@
+@startuml
+left to right direction
+
+
+actor "Людина" as P
+actor "Користувач" as U
+actor "Адміністратор(гри)" as A
+actor "Гравець(гри)" as G
+
+A -|> U
+G -|> U
+
+rectangle "Система обліку інвентаря" {
+
+  usecase "UC-1 Зареєструватися" as UC1
+  usecase "UC-2 Увійти в систему" as UC2
+  usecase "UC-3 Керувати акаунтом" as UC3
+
+  usecase "UC-4 Керувати власними каталогами" as UC4
+  usecase "UC-5 Переглянути каталог та предмети" as UC5
+  usecase "UC-5.1 Скопіювати каталог" as UC51
+
+  usecase "UC-6 Створити гру" as UC6
+  usecase "UC-7 Керувати грою" as UC7
+  usecase "UC-8 Керувати персонажами гри" as UC8
+  usecase "UC-9 Керувати інвентарем персонажа" as UC9
+  usecase "UC-10 Запросити користувача в гру" as UC10
+
+  usecase "UC-11 Приєднатися до гри" as UC11
+  usecase "UC-11.1 Вказати ім'я та опис персонажа" as UC111
+  usecase "UC-12 Переглянути гру та своїх персонажів" as UC12
+  usecase "UC-13 Вийти з гри" as UC13
+}
+
+P --> UC1
+P --> UC2
+
+U --> UC3
+U --> UC4
+U --> UC5
+U --> UC6
+U --> UC11
+
+A --> UC7
+A --> UC8
+A --> UC9
+A --> UC10
+
+G --> UC12
+G --> UC13
+
+' Приєднання до гри обов'язково містить введення даних персонажа
+UC11 ..> UC111 : <<include>>
+' Копіювання - варіація перегляду каталогів
+UC51 ..> UC5 : <<extend>>
+@enduml
